@@ -9,7 +9,14 @@ public class Unit : MonoBehaviour {
         ANIMATOR_ALIVE = "Alive",
         ANIMATOR_ATTACK = "Attack";
 
+    public float HealthPercent { get { return hp / hpMax; } }
+
     public Transform target;
+
+    [SerializeField]
+    float hp, hpMax = 100f;
+    [SerializeField]
+    GameObject hpBarPrefab;
 
     NavMeshAgent nav;
     Animator animator;
@@ -18,6 +25,8 @@ public class Unit : MonoBehaviour {
     {
         nav = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        hp = hpMax;
+        Instantiate(hpBarPrefab, transform);
     }
 	
 	// Update is called once per frame
@@ -39,6 +48,7 @@ public class Unit : MonoBehaviour {
         float speed = speedVector.magnitude;
 
         animator.SetFloat(ANIMATOR_SPEED, speed);
+        animator.SetBool(ANIMATOR_ALIVE, hp > 0);
     }
 
     
